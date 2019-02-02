@@ -1,0 +1,32 @@
+https://www.youtube.com/watch?v=SvArz08HwHc
+https://www.quora.com/Can-you-store-multiple-images-in-the-same-column-for-a-MySQL-database
+
+Invalid file names
+££££/////$$$$%%%^^$$]][[]][[]][[]] | ?#
+
+
+For retrieving links
+----------------------
+large string from database (allLinks) -> Array of links 
+var [] linkList;
+string link;
+for(each character in allLinks){
+    if(character == "$" || "\"){
+        linkList.add(link)
+        link = "";
+    }
+
+    link = link + character;
+}
+
+
+For storing* images
+-------------------
+Array of strings -> long line of concenated strings foring giant string
+
+
+
+
+For retrieving images
+----------------------
+large string -> Array of strings

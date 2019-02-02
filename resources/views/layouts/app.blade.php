@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title> @yield('pageTitle') | Arboretum Project</title>
+    <title>Arboretum Project</title>
     <!-- <title>{{ config('app.name', '') }} <link rel="icon" href="/images/tree.png"> </title> -->
 
     
@@ -17,7 +17,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" ></script>
     <script src="{{ asset('js/bootstrap.min.js') }}" ></script>
-
+    <script src="{{ asset('js/custom.js') }}" ></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -25,7 +25,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/labels.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     
     <!--<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"> -->
     <!--<link rel="stylesheet/less" type="text/css" href="{{ asset('app.less') }}" > -->

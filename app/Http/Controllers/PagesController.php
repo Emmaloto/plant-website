@@ -12,7 +12,7 @@ use DB;         // Use MYSQL Queries
 class PagesController extends Controller
 {
     public function index(){
-        $title = "My Arboretum Project (very BETA)";
+        $title = "My Arboretum Project (BETA)";
         //return view('pages.index', compact('title'));
         return view('pages.index')->with('title', $title);
     }

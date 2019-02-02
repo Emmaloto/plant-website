@@ -15,7 +15,7 @@ class Group extends Model
 
     public function plants()
     {
-        return $this -> belongsTo('App\Plant', 'GroupID', 'GroupID');
+        return $this -> hasMany('App\Plant', 'GroupID', 'GroupID');
     }
 
 

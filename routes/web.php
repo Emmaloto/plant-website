@@ -14,22 +14,33 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/groups', function () {
+    $title = "Page Temporarily Unavailable";
+});
 */
 
 Route::get('/', "PagesController@index");
 
 Route::get('/about', "PagesController@about");
 
-Route::get('/unavailable', "PagesController@c");
+//Route::get('/unavailable', "PagesController@unavailable");
 
-//Route::get('/create', "PagesController@create");
+Route::get('/unavailable', function () {
+    $title = "Page Temporarily Unavailable";
+    return view('pages.unfinished')->with('title', $title);
+});
 
-// Route::get('/plantDisplay', "PagesController@show");
+Route::get('/groups', "PlantListController@categories");
 
-Route::resource('posts', 'PostsController');
-//Route::get('/plantDisplay', "PostsController@store");
-
-//Auth::routes();
-Auth::routes();
+Route::get('/category/{categoryName}', ['uses' =>'PlantListController@loadPlantList', 'as'=>'GroupRoute']);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('posts', 'PostsController');
+
+Route::get('/posts',  ['uses' =>'PostsController@index']);
+
+Auth::routes();
+
+

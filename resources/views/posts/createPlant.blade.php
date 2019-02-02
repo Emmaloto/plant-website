@@ -79,23 +79,23 @@
   </form>
   </div>
 
+  https://www.youtube.com/watch?v=6ntf5P3wvz4&t=99s
   -->
 
+      <div class="alert alert-info"> You can add multiple links in the link sections. Just separate them with $ or #. </div>
+  
   <div class="form-group">
       {{Form::label('links', 'If these images are not royalty-free, please put credit to owner here: ')}}
-      {{Form::text('credit', '', ['class' => 'form-control', 'placeholder'=>'Name of Organisation/Website, Link'])}}
-      {{Form::button('+ Add More', ['class' => 'btn btn-primary'])}}
+      {{Form::text('credit', '', ['class' => 'form-control', 'placeholder'=>'Link(s) to Organisation/Website'])}}
    </div>
   <!-- https://stackoverflow.com/questions/14853779/adding-input-elements-dynamically-to-form -->
   
-
 
    <div class="form-group">
       {{Form::label('links', 'Useful Links (Separate with semi-colon (;)')}}
       {{Form::text('links', '', ['class' => 'form-control', 'placeholder'=>'Useful Websites'])}}
    </div>
-
-   
+  
    
   {{Form::submit('Add New Plant', ['class' => 'btn btn-primary'])}}
 

@@ -24,6 +24,7 @@ class PostsController extends Controller
         return view('posts.index') -> with('posts', $posts);
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -111,7 +112,11 @@ class PostsController extends Controller
     {
         //
         $plant = Plant::find($id);
+        // Separate links 
+        $plant -> useful_link_list = self::breakDown($plant -> Useful_links);
+        $plant -> image_link_list = self::breakDown($plant -> Credit_links);
         return view('posts.show') ->with('plant', $plant);
+        
     }
 
     /**
@@ -198,6 +203,9 @@ class PostsController extends Controller
         return redirect('/posts')->with('success', 'Post Updated');       
     }
 
+
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -215,4 +223,34 @@ class PostsController extends Controller
 
         return redirect('/posts')->with('success', 'Plant Deleted'); 
     }
+
+    // Helper Functions
+    
+    public function breakDown($compositeString)
+    {
+
+        $links = [];
+        $currLink = '';
+        // Iterate through string 
+        // preg_split is a good option here, but want to see logic
+        for ($i = 0, $j = 0; $i < strlen($compositeString); $i++) {  
+            $c = $compositeString[$i];
+
+            // End of string, store last char and terminate string
+            if($i == strlen($compositeString) - 1 && $c != '#' && $c != '$'){
+                $currLink = $currLink.$c;  
+                $c = '$';
+            }
+
+            if($c == '#' || $c == '$' ){
+                $links[$j] = $currLink;  // Store complete link in array
+                $currLink = '';
+                $j++;
+            } else $currLink = $currLink.$c;
+           
+        }
+         return $links;
+    }
 }
+
+

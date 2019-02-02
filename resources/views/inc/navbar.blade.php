@@ -25,7 +25,7 @@
                             </li>
             
                             <li class="nav-item">
-                              <a class="nav-link" href="/unavailable"> Plants by Category</a>
+                              <a class="nav-link" href="/groups"> Plants by Category</a>
                             </li>      
 
                             <li class="nav-item">
@@ -55,7 +55,7 @@
                             <li> <a href="/posts/create"  class="btn"> Add Plant </a></li>
                           </ul>
                           <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                            <input class="form-control mr-sm-2" type="text" placeholder="Search - Not Done" aria-label="Search">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                           </form>
                         
@@ -67,7 +67,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
                                     <a class="dropdown-item" href="/home"> Dashboard </a>
-
+                                    <a class="dropdown-item" href="/unavailable"> Users </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
