@@ -7,7 +7,7 @@ Invalid file names
 
 For retrieving links
 ----------------------
-large string from database (allLinks) -> Array of links 
+large string from database (allLinks) -> Array of links
 var [] linkList;
 string link;
 for(each character in allLinks){
@@ -22,7 +22,7 @@ for(each character in allLinks){
 
 For storing* images
 -------------------
-Array of strings -> long line of concenated strings foring giant string
+Array of strings -> long line of concenated strings forming giant string
 
 
 
