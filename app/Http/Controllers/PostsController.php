@@ -19,9 +19,16 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
-        $posts = Plant::orderBy('created_at', 'desc') -> paginate(10);
-        return view('posts.index') -> with('posts', $posts);
+        try {
+            $posts = Plant::orderBy('created_at', 'desc')->paginate(10);
+        } catch (\Exception $e) {
+            $errorMsg = 'Unable to retrieve plant data. Please check your database connection.';
+            if (str_contains($e->getMessage(), 'could not find driver')) {
+                $errorMsg = 'Database driver not found. Please ensure the MySQL driver is installed and enabled.';
+            }
+            return response()->view('errors.data', ['message' => $errorMsg], 500);
+        }
+        return view('posts.index')->with('posts', $posts);
     }
 
 
@@ -68,14 +75,14 @@ class PostsController extends Controller
         if($request -> input('other_name') != null)
             $plant -> Other_Name  = $request -> input('other_name');
 
-        $plant -> GroupID = $request -> input('plant-group');   
-        $plant -> FlowerID = $request -> input('flowering');  
+        $plant -> GroupID = $request -> input('plant-group');
+        $plant -> FlowerID = $request -> input('flowering');
 
         $plant -> Credit_links     = $request -> input('credit');
         $plant -> Useful_links     = $request -> input('links');
         $plant -> Description     = $request -> input('plant_info');
         $plant -> user_id = auth()->user()->id;
-        
+
         // Handle file upload
         if($request -> hasFile('plant_image')){
             // Get filename with the extension
@@ -112,11 +119,11 @@ class PostsController extends Controller
     {
         //
         $plant = Plant::find($id);
-        // Separate links 
+        // Separate links
         $plant -> useful_link_list = self::breakDown($plant -> Useful_links);
         $plant -> image_link_list = self::breakDown($plant -> Credit_links);
         return view('posts.show') ->with('plant', $plant);
-        
+
     }
 
     /**
@@ -130,7 +137,7 @@ class PostsController extends Controller
         //
         $plant = Plant::find($id);
         return view('posts.edit') ->with('plant', $plant);
-        
+
     }
 
     /**
@@ -143,7 +150,7 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         //
- 
+
         //dd($request -> hasFile('plant_image'));
 
         $this -> validate($request, [
@@ -160,47 +167,49 @@ class PostsController extends Controller
         ]);
 
         // Refresh Database Entry
-        $plant = Plant::find($id);
-        $plant -> Scientific_Name = $request -> input('sc_name');
-        $plant -> Common_Name     = $request -> input('name');
-        $plant -> Family          = $request -> input('family');
-        if($request -> input('other_name') != null)
-            $plant -> Other_Name  = $request -> input('other_name');
 
-        $plant -> GroupID = $request -> input('plant-group');   
-        $plant -> FlowerID = $request -> input('flowering');  
 
-        $plant -> Credit_links     = $request -> input('credit');
-        $plant -> Useful_links     = $request -> input('links');
-        $plant -> Description     = $request -> input('plant_info');
-        $plant -> user_id = auth()->user()->id;
-        
-        // Handle file upload
-        if($request -> hasFile('plant_image')){
-            // Get filename with the extension
-            $filenameWithExt = $request ->file('plant_image') -> getClientOriginalName();
-            // Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request ->file('plant_image') -> getClientOriginalExtension();
-            // Filename to Store
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
 
-            // Upload image
-            $path = $request->file('plant_image')->move('images', $fileNameToStore);
-            //$path = $request->file('plant_image')->storeAs('public/images',  $fileNameToStore);
 
-            // Remove old image and replace with new one 
-            // unless image is default image
-            if ($plant -> Images != 'noimage.jpg') {
-                Storage::delete('images/'.$plant -> Images);
+
+        try {
+            $plant = Plant::find($id);
+            if (!$plant) {
+                return response()->view('errors.data', ['message' => 'Plant not found.'], 404);
             }
-            $plant -> Images = $fileNameToStore;
-        }
-        
-        $plant -> save();
+            $plant->Scientific_Name = $request->input('sc_name');
+            $plant->Common_Name     = $request->input('name');
+            $plant->Family          = $request->input('family');
+            if ($request->input('other_name') != null)
+                $plant->Other_Name  = $request->input('other_name');
 
-        return redirect('/posts')->with('success', 'Post Updated');       
+            $plant->GroupID = $request->input('plant-group');
+            $plant->FlowerID = $request->input('flowering');
+
+            $plant->Credit_links     = $request->input('credit');
+            $plant->Useful_links     = $request->input('links');
+            $plant->Description     = $request->input('plant_info');
+            $plant->user_id = auth()->user()->id;
+
+            // Handle file upload
+            if ($request->hasFile('plant_image')) {
+                $filenameWithExt = $request->file('plant_image')->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('plant_image')->getClientOriginalExtension();
+                $fileNameToStore = $filename.'_'.time().'.'.$extension;
+                $path = $request->file('plant_image')->move('images', $fileNameToStore);
+                // Remove old image and replace with new one
+                // unless image is default image
+                if ($plant->Images != 'noimage.jpg') {
+                    Storage::delete('images/'.$plant->Images);
+                }
+                $plant->Images = $fileNameToStore;
+            }
+            $plant->save();
+        } catch (\Exception $e) {
+            return response()->view('errors.data', ['message' => 'Unable to update plant data. Please try again later.'], 500);
+        }
+        return redirect('/posts')->with('success', 'Post Updated');
     }
 
 
@@ -215,30 +224,37 @@ class PostsController extends Controller
     public function destroy($id)
     {
         // Delete Plant and Image
-        $plant = Plant::find($id);
-        $plant -> delete();
-        if ($plant -> Images != 'noimage.jpg') {
-            Storage::delete('images/'.$plant -> Images);
-        }
 
-        return redirect('/posts')->with('success', 'Plant Deleted'); 
+            try {
+                $plant = Plant::find($id);
+                if (!$plant) {
+                    return response()->view('errors.data', ['message' => 'Plant not found.'], 404);
+                }
+                $plant->delete();
+                if ($plant->Images != 'noimage.jpg') {
+                    Storage::delete('images/'.$plant->Images);
+                }
+            } catch (\Exception $e) {
+                return response()->view('errors.data', ['message' => 'Unable to delete plant. Please try again later.'], 500);
+            }
+            return redirect('/posts')->with('success', 'Plant Deleted');
     }
 
     // Helper Functions
-    
+
     public function breakDown($compositeString)
     {
 
         $links = [];
         $currLink = '';
-        // Iterate through string 
+        // Iterate through string
         // preg_split is a good option here, but want to see logic
-        for ($i = 0, $j = 0; $i < strlen($compositeString); $i++) {  
+        for ($i = 0, $j = 0; $i < strlen($compositeString); $i++) {
             $c = $compositeString[$i];
 
             // End of string, store last char and terminate string
             if($i == strlen($compositeString) - 1 && $c != '#' && $c != '$'){
-                $currLink = $currLink.$c;  
+                $currLink = $currLink.$c;
                 $c = '$';
             }
 
@@ -247,7 +263,7 @@ class PostsController extends Controller
                 $currLink = '';
                 $j++;
             } else $currLink = $currLink.$c;
-           
+
         }
          return $links;
     }
