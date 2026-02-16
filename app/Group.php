@@ -8,7 +8,7 @@ use App\Plant;
 class Group extends Model
 {
     //
-    protected $table = 'plantgroup';
+    protected $table = 'plant_group';
 
     // Primary Key
     public $primaryKey = 'GroupID';
