@@ -1,3 +1,11 @@
+/* Active/clicked state for plant group and flower group buttons */
+.btn-cta.active, .btn-cta:active {
+    box-shadow: 0 0 0 4px #f1c40f;
+    outline: none;
+    filter: brightness(0.95);
+    position: relative;
+    z-index: 10;
+}
 /*For buttons*/
 @import 'https://fonts.googleapis.com/css?family=Oswald|Open+Sans';
 
@@ -23,7 +31,7 @@ a.btn-base {
   }
 
 /**  colors and transitions back to normal
-  *  hex colors from flatuicolors.com   
+  *  hex colors from flatuicolors.com
   **/
 
 .btn-1 {
@@ -110,7 +118,7 @@ a.btn-base {
     position: relative;
 }
 
-/** definition and placement of 
+/** definition and placement of
   * starting size before element */
 
 .btn-cta:before {
@@ -161,7 +169,7 @@ a.btn-cta:hover {
     color: #33393f;
     /*text-decoration: underline;*/
   }
-  
+
 
 /*  */
 
@@ -187,12 +195,12 @@ a.btn-cta:hover {
 }
 
 .thumbnail {
-    
+
     border: 1px solid #ddd; /* Gray border */
     border-radius: 4px;  /* Rounded border */
     padding: 5px; /* Some padding */
     width: 50px; /* Set a small width */
-    
+
 }
 
 /* Add a hover effect (blue shadow) */
@@ -200,12 +208,12 @@ a.btn-cta:hover {
     box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
 }
 
-.no-line {   
-    text-decoration: none;    
+.no-line {
+    text-decoration: none;
 }
 
-.no-line:hover { 
-    text-decoration: none; 
+.no-line:hover {
+    text-decoration: none;
 }
 
 .well {

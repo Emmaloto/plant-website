@@ -20,13 +20,14 @@ class PostsController extends Controller
     public function index()
     {
         try {
-            $posts = Plant::orderBy('created_at', 'desc')->paginate(10);
+                $posts = Plant::orderBy('created_at', 'desc')->paginate(10);
         } catch (\Exception $e) {
             $errorMsg = 'Unable to retrieve plant data. Please check your database connection.';
+                $trace = $e->getTraceAsString();
             if (str_contains($e->getMessage(), 'could not find driver')) {
                 $errorMsg = 'Database driver not found. Please ensure the MySQL driver is installed and enabled.';
             }
-            return response()->view('errors.data', ['message' => $errorMsg], 500);
+                return response()->view('errors.data', ['message' => $errorMsg, 'trace' => $e->getMessage() . "\n" . $trace], 500);
         }
         return view('posts.index')->with('posts', $posts);
     }

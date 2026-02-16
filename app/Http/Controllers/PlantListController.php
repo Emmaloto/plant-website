@@ -10,7 +10,6 @@ use DB;         // Use MYSQL Queries
 
 class PlantListController extends Controller
 {
-    //
 
     public function categories(){
         $title = "Plants by Groups";
@@ -30,7 +29,7 @@ class PlantListController extends Controller
         }
         else if($category == 'gymno'){
             $plants = Group::where('GroupName', 'Gymnosperms') -> first() -> plants;
-        }        
+        }
         else if($category == 'angio'){
             $plants = Group::where('GroupName', 'Angiosperms') -> first() -> plants;
         }
@@ -43,9 +42,9 @@ class PlantListController extends Controller
             $plants = FloweringGroup::where('FlowerGroupName', 'Dicotyledons') -> first() -> plants;
         }
         else if($category == 'noflower'){
-            $plants = FloweringGroup::where('FlowerGroupName', 'Non- Flowering') -> first() -> plants;
+            $plants = FloweringGroup::where('FlowerGroupName', 'Non-Flowering') -> first() -> plants;
         }
-        
+
         return view('posts.plantlist')->with('posts', $plants);
 
     }

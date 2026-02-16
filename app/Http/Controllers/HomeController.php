@@ -24,11 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //return view('home');
 
         $user_id = auth()->user()->id;
         //dd($user_id);
         $user = \App\User::find($user_id);
-        return view('home')->with('plants', $user->posts);        
+        return view('home')->with('plants', $user->posts);
     }
 }
