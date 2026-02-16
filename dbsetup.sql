@@ -60,7 +60,7 @@ CREATE TABLE arboretumplants (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- Sample data for users
+-- Sample data for users (use bcrypt hashes for passwords instead of plain text in a real application)
 INSERT INTO users (name, email, password) VALUES
 ('Alice Botanist', 'alice@example.com', 'password1'),
 ('Bob Gardener', 'bob@example.com', 'password2');
